@@ -35,10 +35,14 @@ void hashTree::insert(const element &e) {
 }
 
 bool hashTree::contains(const long long int hash) const {
+    if (size_ == 0)
+        return false;
     return find(hash) != nullptr;
 }
 
 student *hashTree::find(const long long int hash) const {
+    if (size_ == 0)
+        return nullptr;
     hashTree::node *current = root_;
     while (current && current->data_.hash_ != hash)
         if (hash < current->data_.hash_) {
@@ -66,11 +70,6 @@ bool hashTree::remove(const long long hash) {
     }
     if (!current)
         return false;
-    if (parent->left_ == nullptr && parent->right_ == nullptr) {
-        --size_;
-        delete current;
-        return true;
-    }
     if (current->left_ == nullptr) {
         if (parent->left_ == current)
             parent->left_ = current->right_;
@@ -85,6 +84,7 @@ bool hashTree::remove(const long long hash) {
             parent->left_ = current->left_;
         if (parent->right_ == current)
             parent->right_ = current->left_;
+        --size_;
         delete current;
         return true;
     }
@@ -103,12 +103,14 @@ void hashTree::clear(node *current) {
     if (current) {
         clear(current->left_);
         clear(current->right_);
+        --size_;
         delete current;
     }
 }
 
 void hashTree::deleteTree() {
-    clear(root_);
+    if (size_ != 0)
+        clear(root_);
 }
 
 
