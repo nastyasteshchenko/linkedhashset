@@ -29,4 +29,4 @@ target_link_libraries(
 )
 
 include(GoogleTest)
-#gtest_discover_tests(linkedhashset_test)
+gtest_discover_tests(linkedhashset_test)
