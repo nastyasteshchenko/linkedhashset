@@ -19,7 +19,9 @@ struct student {
     std::string name_;
 private:
     friend class linkedhs;
+
     friend class hashTree;
+
     mutable long long int hash_;
 };
 
