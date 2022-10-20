@@ -5,11 +5,15 @@
 #include "hashtree.h"
 
 class linkedhs {
+public:
     struct node {
         element *data_{};
         node *next_{}, *previous_{};
     };
-public:
+
+    node *head_;
+    node *last_;
+
     class iterator {
     public:
 
@@ -35,9 +39,9 @@ public:
         node *node_;
     };
 
-    linkedhs();
+    linkedhs(); //assigns nullptr to pointers to nodes head_, last_, parent_ присваивает nullptr, assigns 0 to listSize_
 
-    ~linkedhs();
+    ~linkedhs(); //clears memory
 
     linkedhs(const linkedhs &other);
 
@@ -53,7 +57,7 @@ public:
     bool remove(const element &e); //removes the element from the list
     //returns true if removing is successful, returns false otherwise
 
-    void swap(linkedhs &other) const; //swaps the lists
+    void swap(linkedhs &other); //swaps the lists
 
     size_t size() const; //returns size of the list
 
@@ -66,20 +70,15 @@ public:
     iterator find(const element &e) const; //looks for the certain element in the list
     //returns the certain element in the list
 
-    void printList(); //prints the list
-
     void clear(); //clears the list
 
-    iterator begin();
+    iterator begin() const;
 
-    iterator end();
+    iterator end() const;
 
 private:
     class hashTree hashSetOfStudents_;
 
-    node *head_;
-    node *last_;
-    node *parent;
     int listSize_;
 
     void deleteList(); //deletes the list
@@ -87,6 +86,7 @@ private:
     bool deleteListNode(const element &e); //deletes the node of the list
     //returns true if deleting is successful, returns false otherwise
 
+    void printList() const; //prints the list
 };
 
 
