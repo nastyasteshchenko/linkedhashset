@@ -1,49 +1,33 @@
 #include "linkedhs.h"
 
-linkedhs::linkedhs() : listSize_(0), head_(nullptr), last_(nullptr), parent(nullptr) {}
+linkedhs::linkedhs() : head_(nullptr), last_(nullptr), listSize_(0) {}
 
 linkedhs::~linkedhs() {
-    deleteList();
-    hashSetOfStudents_.deleteTree();
+        hashSetOfStudents_.deleteTree();
+        deleteList();
 }
 
 linkedhs::linkedhs(const linkedhs &other) {
-    node *tmpParent = nullptr;
+    *this = linkedhs();
     node *tmpOther = other.head_;
     for (int i = 0; i < other.listSize_; i++) {
-        node *n = new node{tmpOther->data_, nullptr, nullptr};
-        if (tmpParent != nullptr) {
-            node *tmp = tmpParent;
-            tmpParent->next_ = n;
-            tmpParent = n;
-            last_ = n;
-            tmpParent->previous_ = tmp;
-        } else {
-            head_ = n;
-            head_->previous_ = nullptr;
-            last_ = n;
-            tmpParent = n;
-        }
+        this->insert(*tmpOther->data_);
         tmpOther = tmpOther->next_;
     }
-    listSize_ = other.listSize_;
-    parent = other.parent;
 }
 
 linkedhs &linkedhs::operator=(const linkedhs &other) = default;
 
 bool linkedhs::operator==(const linkedhs &other) const {
     node *tmpThis = head_;
-    node *tmpOther = other.head_;
     if (listSize_ != other.listSize_)
         return false;
     for (int i = 0; i < listSize_; i++) {
-        if (tmpThis->data_ != tmpOther->data_)
+        if (!other.hashSetOfStudents_.contains(tmpThis->data_->hash_))
             return false;
         tmpThis = tmpThis->next_;
-        tmpOther = tmpOther->next_;
     }
-    return head_ == other.head_;
+    return true;
 }
 
 bool linkedhs::operator!=(const linkedhs &other) const {
@@ -51,7 +35,7 @@ bool linkedhs::operator!=(const linkedhs &other) const {
 }
 
 bool linkedhs::insert(const element &e) {
-    if (size() != 0)
+    if (listSize_ != 0)
         if (contains(e))
             return false;
     hashSetOfStudents_.insert(e);
@@ -59,17 +43,15 @@ bool linkedhs::insert(const element &e) {
     if (currentStudent == nullptr)
         return false;
     node *n = new node{currentStudent, nullptr, nullptr};
-    if (parent != nullptr) {
-        node *tmp = parent;
-        parent->next_ = n;
-        parent = n;
+    if (last_ != nullptr) {
+        node *tmp = last_;
+        last_->next_ = n;
         last_ = n;
-        parent->previous_ = tmp;
+        last_->previous_ = tmp;
     } else {
         head_ = n;
         head_->previous_ = nullptr;
         last_ = n;
-        parent = n;
     }
     ++listSize_;
     return true;
@@ -80,14 +62,14 @@ bool linkedhs::remove(const element &e) {
         return false;
     if (!hashSetOfStudents_.remove(e.hash_))
         return false;
-    --listSize_;
     return true;
 }
 
-void linkedhs::swap(linkedhs &other) const {
-    const linkedhs &tmp(other);
-    other = *this;
-    other = tmp;
+void linkedhs::swap(linkedhs &other) {
+    std::swap(*this->head_, *other.head_);
+    std::swap(*this->last_, *other.last_);
+    std::swap(this->hashSetOfStudents_, other.hashSetOfStudents_);
+    this->listSize_ = other.listSize_;
 }
 
 size_t linkedhs::size() const {
@@ -99,6 +81,8 @@ bool linkedhs::empty() const {
 }
 
 bool linkedhs::contains(const element &e) const {
+    if (listSize_ == 0)
+        return false;
     iterator it = find(e);
     return it.node_ != nullptr;
 }
@@ -107,6 +91,10 @@ linkedhs::iterator linkedhs::find(const element &e) const {
     iterator begin(head_);
     iterator end(last_);
     iterator it = begin;
+    if (listSize_ == 0) {
+        it.node_ = nullptr;
+        return it;
+    }
     while (it != end) {
         if (e == *it.node_->data_)
             return it;
@@ -118,7 +106,7 @@ linkedhs::iterator linkedhs::find(const element &e) const {
     return it;
 }
 
-void linkedhs::printList() {
+void linkedhs::printList() const {
     iterator b = this->begin();
     iterator it = b;
     iterator e = this->end();
@@ -134,11 +122,11 @@ void linkedhs::clear() {
     hashSetOfStudents_.deleteTree();
 }
 
-linkedhs::iterator linkedhs::begin() {
+linkedhs::iterator linkedhs::begin() const {
     return linkedhs::iterator(head_);
 }
 
-linkedhs::iterator linkedhs::end() {
+linkedhs::iterator linkedhs::end() const {
     return linkedhs::iterator(last_);
 }
 
@@ -181,20 +169,24 @@ bool linkedhs::iterator::operator!=(const iterator &other) const {
 }
 
 void linkedhs::deleteList() {
-    while (head_ != nullptr) {
+    while (head_ != nullptr && listSize_ != 0) {
         node *next = head_->next_;
         delete head_;
         head_ = next;
+        --listSize_;
     }
 }
 
 bool linkedhs::deleteListNode(const element &e) {
+    if (listSize_ == 0)
+        return true;
     const iterator elementToDelete = this->find(e);
     if (elementToDelete.node_->previous_ == nullptr) {
         node *tmp = elementToDelete.node_->next_;
         tmp->previous_ = nullptr;
         delete elementToDelete.node_;
         head_ = tmp;
+        --listSize_;
         return true;
     }
     if (elementToDelete.node_->next_ == nullptr) {
@@ -202,6 +194,7 @@ bool linkedhs::deleteListNode(const element &e) {
         tmp->next_ = nullptr;
         delete elementToDelete.node_;
         last_ = tmp;
+        --listSize_;
         return true;
     }
     if (elementToDelete.node_->next_ != nullptr && elementToDelete.node_->previous_ != nullptr) {
@@ -210,6 +203,8 @@ bool linkedhs::deleteListNode(const element &e) {
         tmpPrev->next_ = tmpNext;
         tmpNext->previous_ = tmpPrev;
         delete elementToDelete.node_;
+        --listSize_;
+        return true;
     }
     return false;
 }
