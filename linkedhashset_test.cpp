@@ -345,6 +345,48 @@ TEST(CopyConstructorLinkedhsTest, CopyList) {
     EXPECT_TRUE(studentsCopy == students);
 }
 
+TEST(CopyConstructorLinkedhsTest, CopiedListUfterRemovingInTheFirtst) {
+    linkedhs students;
+    std::string name1 = "Sasha Ivanov";
+    student student1(18, name1);
+    students.insert(student1);
+    std::string name2 = "Nastya Kim";
+    student student2(15, name2);
+    students.insert(student2);
+    std::string name3 = "Katya Kim";
+    student student3(18, name3);
+    students.insert(student3);
+    std::string name4 = "Rimma Kats";
+    student student4(19, name4);
+    students.insert(student4);
+    linkedhs studentsCopy(students);
+    students.remove(student2);
+    EXPECT_EQ(students.size(), 3);
+    EXPECT_EQ(studentsCopy.size(), 4);
+    EXPECT_FALSE(studentsCopy == students);
+}
+
+TEST(CopyConstructorLinkedhsTest, CopiedListUfterRemovingInTheCopy) {
+    linkedhs students;
+    std::string name1 = "Sasha Ivanov";
+    student student1(18, name1);
+    students.insert(student1);
+    std::string name2 = "Nastya Kim";
+    student student2(15, name2);
+    students.insert(student2);
+    std::string name3 = "Katya Kim";
+    student student3(18, name3);
+    students.insert(student3);
+    std::string name4 = "Rimma Kats";
+    student student4(19, name4);
+    students.insert(student4);
+    linkedhs studentsCopy(students);
+    studentsCopy.remove(student2);
+    EXPECT_EQ(students.size(), 4);
+    EXPECT_EQ(studentsCopy.size(), 3);
+    EXPECT_FALSE(studentsCopy == students);
+}
+
 //operator=
 
 TEST(OperatorAssigningTest, AssigningToList) {
