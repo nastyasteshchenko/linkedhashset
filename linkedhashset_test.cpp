@@ -416,6 +416,7 @@ TEST(InsertTest, Empty) {
     bool s1 = students.insert(student1);
 
     EXPECT_TRUE(s1);
+    EXPECT_EQ(students.size(), 1);
     EXPECT_EQ(students.head_->data_->age_, 18);
     EXPECT_EQ(students.head_->data_->name_, name1);
     EXPECT_EQ(students.head_->next_, nullptr);
@@ -437,9 +438,10 @@ TEST(InsertTest, AddingStudents) {
     EXPECT_EQ(students.head_->next_->data_->age_, 15);
     EXPECT_EQ(students.head_->next_->data_->name_, name2);
     EXPECT_EQ(students.head_->next_->next_, nullptr);
+    EXPECT_EQ(students.size(), 2);
 }
 
-TEST(InsertTest, NotDoubling1) {
+TEST(InsertTest, Doubling1) {
     linkedhs students;
     std::string name1 = "Sasha Ivanov";
     student student1(18, name1);
@@ -452,9 +454,10 @@ TEST(InsertTest, NotDoubling1) {
     EXPECT_EQ(students.head_->data_->name_, name1);
     EXPECT_FALSE(s2);
     EXPECT_EQ(students.head_->next_, nullptr);
+    EXPECT_EQ(students.size(), 1);
 }
 
-TEST(InsertTest, NotDoubling2) {
+TEST(InsertTest, Doubling2) {
     linkedhs students;
     std::string name1 = "Sasha Ivanov";
     student student1(18, name1);
@@ -473,9 +476,10 @@ TEST(InsertTest, NotDoubling2) {
     EXPECT_EQ(students.head_->next_->data_->name_, name2);
     EXPECT_FALSE(s3);
     EXPECT_EQ(students.head_->next_->next_, nullptr);
+    EXPECT_EQ(students.size(), 2);
 }
 
-TEST(InsertTest, NotDoubling3) {
+TEST(InsertTest, Doubling3) {
     linkedhs students;
     std::string name2 = "Nastya Kim";
     student student2(15, name2);
@@ -494,6 +498,7 @@ TEST(InsertTest, NotDoubling3) {
     EXPECT_EQ(students.head_->next_->data_->name_, name1);
     EXPECT_FALSE(s3);
     EXPECT_EQ(students.head_->next_->next_, nullptr);
+    EXPECT_EQ(students.size(), 2);
 }
 
 //swap()
