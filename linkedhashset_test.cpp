@@ -635,13 +635,11 @@ TEST_F(RemoveTest, RemovingTheLastElement) {
 
 TEST_F(RemoveTest, RemovingTheMiddleElement) {
     bool s1 = students.contains(student3);
-    size_t size1 = students.size();
     students.remove(student3);
-    size_t size2 = students.size();
     bool s2 = students.contains(student3);
     EXPECT_TRUE(s1);
-    EXPECT_EQ(size1, 4);
-    EXPECT_EQ(size2, 3);
+    EXPECT_EQ(students.size(), 4);
+    EXPECT_EQ(students.size(), 3);
     EXPECT_FALSE(s2);
 }
 
