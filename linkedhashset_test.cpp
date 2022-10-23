@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "linkedhs.h"
+#include "linkedhashset.h"
 #include <string>
 
 //student.h
@@ -40,117 +40,6 @@ TEST(OperatorEqStudentsTest, EqStudents) {
     bool s1 = student1.age_ == student2.age_ && student1.name_ == student2.name_;
     bool s2 = student1 == student2;
     EXPECT_TRUE(s1 == s2);
-}
-
-//iterator
-
-//operator*()
-
-TEST(OperatorDereferenceListsTest, Dereference) {
-    linkedhs students;
-    std::string name1 = "Sasha Ivanov";
-    student student1(18, name1);
-    students.insert(student1);
-    linkedhs::iterator it = linkedhs::iterator(students.head_);
-    EXPECT_TRUE(*it == student1);
-}
-
-//operator!=()
-
-TEST(OperatorNotEqIteratorTest, NotEqIterators) {
-    linkedhs students1;
-    std::string name11 = "Sasha Ivanov";
-    student student11(18, name11);
-    students1.insert(student11);
-    std::string name21 = "Sasha Ivanova";
-    student student21(13, name21);
-    students1.insert(student21);
-    linkedhs::iterator it1(students1.head_);
-    linkedhs::iterator it2(students1.head_->next_);
-    EXPECT_FALSE(it1 == it2);
-}
-
-//operator==()
-
-TEST(OperatorEqIteratorTest, EqIterators) {
-    linkedhs students1;
-    std::string name11 = "Sasha Ivanov";
-    student student11(18, name11);
-    students1.insert(student11);
-    std::string name21 = "Sasha Ivanova";
-    student student21(13, name21);
-    students1.insert(student21);
-    linkedhs::iterator it1(students1.head_->next_);
-    linkedhs::iterator it2(students1.head_->next_);
-    EXPECT_TRUE(it1 == it2);
-}
-
-//operator++(int)
-
-TEST(PostfixIncrementTest, PostfixIncrementForIterator) {
-    linkedhs students1;
-    std::string name11 = "Sasha Ivanov";
-    student student11(18, name11);
-    students1.insert(student11);
-    std::string name21 = "Sasha Ivanova";
-    student student21(13, name21);
-    students1.insert(student21);
-    linkedhs::iterator it1(students1.head_);
-    linkedhs::iterator it2 = it1++;
-    linkedhs::iterator it3(students1.head_->next_);
-    EXPECT_TRUE(it2 == linkedhs::iterator(students1.head_));
-    EXPECT_TRUE(it1 == it3);
-}
-
-//operator++()
-
-TEST(PrefixIncrementTest, PrefixIncrementForIterator) {
-    linkedhs students1;
-    std::string name11 = "Sasha Ivanov";
-    student student11(18, name11);
-    students1.insert(student11);
-    std::string name21 = "Sasha Ivanova";
-    student student21(13, name21);
-    students1.insert(student21);
-    linkedhs::iterator it1(students1.head_);
-    linkedhs::iterator it2 = ++it1;
-    linkedhs::iterator it3(students1.head_->next_);
-    EXPECT_TRUE(it2 == it3);
-    EXPECT_TRUE(it1 == it3);
-}
-
-//operator--(int)
-
-TEST(PostfixDecrementTest, PostfixDecrementForIterator) {
-    linkedhs students1;
-    std::string name11 = "Sasha Ivanov";
-    student student11(18, name11);
-    students1.insert(student11);
-    std::string name21 = "Sasha Ivanova";
-    student student21(13, name21);
-    students1.insert(student21);
-    linkedhs::iterator it1(students1.head_->next_);
-    linkedhs::iterator it2 = it1--;
-    linkedhs::iterator it3(students1.head_);
-    EXPECT_TRUE(it2 == linkedhs::iterator(students1.head_->next_));
-    EXPECT_TRUE(it1 == it3);
-}
-
-//operator--()
-
-TEST(PrefixDecrementTest, PrefixDecrementForIterator) {
-    linkedhs students1;
-    std::string name11 = "Sasha Ivanov";
-    student student11(18, name11);
-    students1.insert(student11);
-    std::string name21 = "Sasha Ivanova";
-    student student21(13, name21);
-    students1.insert(student21);
-    linkedhs::iterator it1(students1.head_->next_);
-    linkedhs::iterator it2 = --it1;
-    linkedhs::iterator it3(students1.head_);
-    EXPECT_TRUE(it2 == it3);
-    EXPECT_TRUE(it1 == it3);
 }
 
 //linkedhs.h
@@ -316,15 +205,6 @@ TEST(SizeTest, SizeOfEmptyList) {
     EXPECT_EQ(students.size(), 0);
 }
 
-//constructor
-
-TEST(ConstructorLinkedhsTest, Declaration) {
-    linkedhs students;
-    EXPECT_EQ(students.size(), 0);
-    EXPECT_EQ(students.head_, nullptr);
-    EXPECT_EQ(students.last_, nullptr);
-}
-
 //copy constructor
 
 TEST(CopyConstructorLinkedhsTest, CopyList) {
@@ -407,100 +287,6 @@ TEST(OperatorAssigningTest, AssigningToList) {
     EXPECT_TRUE(studentsCopy == students);
 }
 
-//insert()
-
-TEST(InsertTest, Empty) {
-    linkedhs students;
-    std::string name1 = "Sasha Ivanov";
-    student student1(18, name1);
-    bool s1 = students.insert(student1);
-
-    EXPECT_TRUE(s1);
-    EXPECT_EQ(students.size(), 1);
-    EXPECT_EQ(students.head_->data_->age_, 18);
-    EXPECT_EQ(students.head_->data_->name_, name1);
-    EXPECT_EQ(students.head_->next_, nullptr);
-}
-
-TEST(InsertTest, AddingStudents) {
-    linkedhs students;
-    std::string name1 = "Sasha Ivanov";
-    student student1(18, name1);
-    bool s1 = students.insert(student1);
-    std::string name2 = "Nastya Kim";
-    student student2(15, name2);
-    bool s2 = students.insert(student2);
-
-    EXPECT_TRUE(s1);
-    EXPECT_EQ(students.head_->data_->age_, 18);
-    EXPECT_EQ(students.head_->data_->name_, name1);
-    EXPECT_TRUE(s2);
-    EXPECT_EQ(students.head_->next_->data_->age_, 15);
-    EXPECT_EQ(students.head_->next_->data_->name_, name2);
-    EXPECT_EQ(students.head_->next_->next_, nullptr);
-    EXPECT_EQ(students.size(), 2);
-}
-
-TEST(InsertTest, Doubling1) {
-    linkedhs students;
-    std::string name1 = "Sasha Ivanov";
-    student student1(18, name1);
-    bool s1 = students.insert(student1);
-    student student2(18, name1);
-    bool s2 = students.insert(student2);
-
-    EXPECT_TRUE(s1);
-    EXPECT_EQ(students.head_->data_->age_, 18);
-    EXPECT_EQ(students.head_->data_->name_, name1);
-    EXPECT_FALSE(s2);
-    EXPECT_EQ(students.head_->next_, nullptr);
-    EXPECT_EQ(students.size(), 1);
-}
-
-TEST(InsertTest, Doubling2) {
-    linkedhs students;
-    std::string name1 = "Sasha Ivanov";
-    student student1(18, name1);
-    bool s1 = students.insert(student1);
-    std::string name2 = "Nastya Kim";
-    student student2(15, name2);
-    bool s2 = students.insert(student2);
-    student student3(18, name1);
-    bool s3 = students.insert(student3);
-
-    EXPECT_TRUE(s1);
-    EXPECT_EQ(students.head_->data_->age_, 18);
-    EXPECT_EQ(students.head_->data_->name_, name1);
-    EXPECT_TRUE(s2);
-    EXPECT_EQ(students.head_->next_->data_->age_, 15);
-    EXPECT_EQ(students.head_->next_->data_->name_, name2);
-    EXPECT_FALSE(s3);
-    EXPECT_EQ(students.head_->next_->next_, nullptr);
-    EXPECT_EQ(students.size(), 2);
-}
-
-TEST(InsertTest, Doubling3) {
-    linkedhs students;
-    std::string name2 = "Nastya Kim";
-    student student2(15, name2);
-    bool s1 = students.insert(student2);
-    std::string name1 = "Sasha Ivanov";
-    student student1(18, name1);
-    bool s2 = students.insert(student1);
-    student student3(18, name1);
-    bool s3 = students.insert(student3);
-
-    EXPECT_TRUE(s1);
-    EXPECT_EQ(students.head_->data_->age_, 15);
-    EXPECT_EQ(students.head_->data_->name_, name2);
-    EXPECT_TRUE(s2);
-    EXPECT_EQ(students.head_->next_->data_->age_, 18);
-    EXPECT_EQ(students.head_->next_->data_->name_, name1);
-    EXPECT_FALSE(s3);
-    EXPECT_EQ(students.head_->next_->next_, nullptr);
-    EXPECT_EQ(students.size(), 2);
-}
-
 //swap()
 
 TEST(SwapTest, SwapingLists) {
@@ -537,24 +323,6 @@ TEST(SwapTest, SwapingLists) {
     EXPECT_TRUE(students2 == tmp1);
     EXPECT_FALSE(students1 == tmp1);
     EXPECT_FALSE(students2 == tmp2);
-}
-
-//find()
-
-TEST(FindTest, FindingCertainElement) {
-    linkedhs students;
-    std::string name1 = "Sasha Ivanov";
-    student student1(18, name1);
-    students.insert(student1);
-    std::string name2 = "Nastya Kim";
-    student student2(15, name2);
-    students.insert(student2);
-    std::string name3 = "Katya Kim";
-    student student3(18, name3);
-    students.insert(student3);
-    linkedhs::iterator certainStudent = students.find(student2);
-    linkedhs::iterator student(students.head_->next_);
-    EXPECT_TRUE(certainStudent == student);
 }
 
 //contains()
@@ -645,43 +413,6 @@ TEST_F(RemoveTest, RemovingTheMiddleElement) {
     EXPECT_FALSE(s2);
 }
 
-//begin()
-
-TEST(BeginTest, FindingBegin) {
-    linkedhs students1;
-    std::string name11 = "Sasha Ivanov";
-    student student11(18, name11);
-    students1.insert(student11);
-    std::string name21 = "Nastya Kim";
-    student student21(15, name21);
-    students1.insert(student21);
-    std::string name31 = "Katya Kim";
-    student student31(18, name31);
-    students1.insert(student31);
-    std::string name41 = "Rimma Kats";
-    student student41(19, name41);
-    students1.insert(student41);
-    EXPECT_TRUE(students1.begin() == linkedhs::iterator(students1.head_));
-}
-
-//end()
-
-TEST(EndTest, FindingEnd) {
-    linkedhs students1;
-    std::string name11 = "Sasha Ivanov";
-    student student11(18, name11);
-    students1.insert(student11);
-    std::string name21 = "Nastya Kim";
-    student student21(15, name21);
-    students1.insert(student21);
-    std::string name31 = "Katya Kim";
-    student student31(18, name31);
-    students1.insert(student31);
-    std::string name41 = "Rimma Kats";
-    student student41(19, name41);
-    students1.insert(student41);
-    EXPECT_TRUE(students1.end() == linkedhs::iterator(students1.last_));
-}
 
 int main() {
     testing::InitGoogleTest();
