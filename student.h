@@ -17,12 +17,7 @@ struct student {
 
     unsigned age_;
     std::string name_;
-private:
-    friend class linkedhs;
 
-    friend class hashTree;
-
-    mutable long long int hash_;
 };
 
 typedef student element;

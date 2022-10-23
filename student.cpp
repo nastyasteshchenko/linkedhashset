@@ -1,10 +1,10 @@
 #include "student.h"
 
-student::student() : age_(0), hash_(0) {
+student::student() : age_(0) {
     name_ = '\0';
 }
 
-student::student(const unsigned age, std::string name) : age_(age), name_(std::move(name)), hash_(0) {}
+student::student(const unsigned age, std::string name) : age_(age), name_(std::move(name)){}
 
 bool student::operator==(const student &other) const {
     return other.age_ == age_ && other.name_ == name_;
