@@ -48,30 +48,22 @@ TEST(OperatorEqStudentsTest, EqStudents) {
 
 TEST(OperatorEqListsTest, EqListInTheSameOrder) {
     linkedhs students1;
-    std::string name11 = "Sasha Ivanov";
-    student student11(18, name11);
+    student student11(18, "Sasha Ivanov");
     students1.insert(student11);
-    std::string name21 = "Nastya Kim";
-    student student21(15, name21);
+    student student21(15, "Nastya Kim");
     students1.insert(student21);
-    std::string name31 = "Katya Kim";
-    student student31(18, name31);
+    student student31(18, "Katya Kim");
     students1.insert(student31);
-    std::string name41 = "Rimma Kats";
-    student student41(19, name41);
+    student student41(19, "Rimma Kats");
     students1.insert(student41);
     linkedhs students2;
-    std::string name12 = "Sasha Ivanov";
-    student student12(18, name12);
+    student student12(18, "Sasha Ivanov");
     students2.insert(student12);
-    std::string name22 = "Nastya Kim";
-    student student22(15, name22);
+    student student22(15, "Nastya Kim");
     students2.insert(student22);
-    std::string name32 = "Katya Kim";
-    student student32(18, name32);
+    student student32(18, "Katya Kim");
     students2.insert(student32);
-    std::string name42 = "Rimma Kats";
-    student student42(19, name42);
+    student student42(19, "Rimma Kats");
     students2.insert(student42);
     bool s1 = students1 == students2;
     EXPECT_TRUE(s1);
@@ -79,30 +71,22 @@ TEST(OperatorEqListsTest, EqListInTheSameOrder) {
 
 TEST(OperatorEqListsTest, EqListNotInTheSameOrder) {
     linkedhs students1;
-    std::string name11 = "Sasha Ivanov";
-    student student11(18, name11);
+    student student11(18, "Sasha Ivanov");
     students1.insert(student11);
-    std::string name21 = "Nastya Kim";
-    student student21(15, name21);
+    student student21(15, "Nastya Kim");
     students1.insert(student21);
-    std::string name31 = "Katya Kim";
-    student student31(18, name31);
+    student student31(18, "Katya Kim");
     students1.insert(student31);
-    std::string name41 = "Rimma Kats";
-    student student41(19, name41);
+    student student41(19, "Rimma Kats");
     students1.insert(student41);
     linkedhs students2;
-    std::string name32 = "Katya Kim";
-    student student32(18, name32);
+    student student32(18, "Katya Kim");
     students2.insert(student32);
-    std::string name42 = "Rimma Kats";
-    student student42(19, name42);
+    student student42(19, "Rimma Kats");
     students2.insert(student42);
-    std::string name22 = "Nastya Kim";
-    student student22(15, name22);
+    student student22(15, "Nastya Kim");
     students2.insert(student22);
-    std::string name12 = "Sasha Ivanov";
-    student student12(18, name12);
+    student student12(18, "Sasha Ivanov");
     students2.insert(student12);
     bool s1 = students1 == students2;
     EXPECT_TRUE(s1);
@@ -112,30 +96,22 @@ TEST(OperatorEqListsTest, EqListNotInTheSameOrder) {
 
 TEST(OperatorNotEqListsTest, NotEqList) {
     linkedhs students1;
-    std::string name11 = "Sasha Ivanov";
-    student student11(18, name11);
+    student student11(18, "Sasha Ivanov");
     students1.insert(student11);
-    std::string name21 = "Nastya Kim";
-    student student21(15, name21);
+    student student21(15, "Nastya Kim");
     students1.insert(student21);
-    std::string name31 = "Katya Kim";
-    student student31(18, name31);
+    student student31(18, "Katya Kim");
     students1.insert(student31);
-    std::string name41 = "Rimma Kats";
-    student student41(19, name41);
+    student student41(19, "Rimma Kats");
     students1.insert(student41);
     linkedhs students2;
-    std::string name12 = "Sasha Ivanov";
-    student student12(18, name12);
+    student student12(18, "Sasha Ivanov");
     students2.insert(student12);
-    std::string name22 = "Nastya Ivanova";
-    student student22(15, name22);
+    student student22(15, "Nastya Ivanova");
     students2.insert(student22);
-    std::string name32 = "Katya Kim";
-    student student32(18, name32);
+    student student32(18, "Katya Kim");
     students2.insert(student32);
-    std::string name42 = "Rimma Kats";
-    student student42(19, name42);
+    student student42(19, "Rimma Kats");
     students2.insert(student42);
     bool s1 = students1 == students2;
     EXPECT_FALSE(s1);
@@ -145,17 +121,13 @@ TEST(OperatorNotEqListsTest, NotEqList) {
 
 TEST(ClearTest, ClearList) {
     linkedhs students;
-    std::string name1 = "Sasha Ivanov";
-    student student1(18, name1);
+    student student1(18, "Sasha Ivanov");
     students.insert(student1);
-    std::string name2 = "Nastya Kim";
-    student student2(15, name2);
+    student student2(15, "Nastya Kim");
     students.insert(student2);
-    std::string name3 = "Katya Kim";
-    student student3(18, name3);
+    student student3(18, "Katya Kim");
     students.insert(student3);
-    std::string name4 = "Rimma Kats";
-    student student4(19, name4);
+    student student4(19, "Rimma Kats");
     students.insert(student4);
     students.clear();
     bool s1 = students.contains(student1);
@@ -169,34 +141,53 @@ TEST(ClearTest, ClearList) {
     EXPECT_EQ(students.size(), 0);
 }
 
-//size()
+//size()  ПРОВЕРЬ КОГДА РЕМУВ
 
 TEST(SizeTest, SizeOfList) {
     linkedhs students;
-    std::string name1 = "Sasha Ivanov";
-    student student1(18, name1);
+    student student1(18, "Sasha Ivanov");
     students.insert(student1);
-    std::string name2 = "Nastya Kim";
-    student student2(15, name2);
+    student student2(15, "Nastya Kim");
     students.insert(student2);
-    std::string name3 = "Katya Kim";
-    student student3(18, name3);
+    student student3(18, "Katya Kim");
     students.insert(student3);
 
     EXPECT_EQ(students.size(), 3);
 }
 
+TEST(SizeTest, SizeOfListAfterRemoving) {
+    linkedhs students;
+    student student1(18, "Sasha Ivanov");
+    students.insert(student1);
+    student student2(15, "Nastya Kim");
+    students.insert(student2);
+    student student3(13, "Katya Kim");
+    students.insert(student3);
+    students.remove(student3);
+    EXPECT_EQ(students.size(), 2);
+}
+
+TEST(SizeTest, SizeOfListAfterClearing) {
+    linkedhs students;
+    student student1(18, "Sasha Ivanov");
+    students.insert(student1);
+    student student2(15, "Nastya Kim");
+    students.insert(student2);
+    student student3(13, "Katya Kim");
+    students.insert(student3);
+    EXPECT_EQ(students.size(), 3);
+    students.clear();
+    EXPECT_EQ(students.size(), 0);
+}
+
 TEST(SizeTest, SizeOfListInCaseDoubling) {
     linkedhs students;
-    std::string name2 = "Nastya Kim";
-    student student2(15, name2);
+    student student2(15, "Nastya Kim");
     students.insert(student2);
-    std::string name1 = "Sasha Ivanov";
-    student student1(18, name1);
+    student student1(18, "Sasha Ivanov");
     students.insert(student1);
-    student student3(18, name1);
+    student student3(18, "Sasha Ivanov");
     students.insert(student3);
-
     EXPECT_EQ(students.size(), 2);
 }
 
@@ -209,35 +200,28 @@ TEST(SizeTest, SizeOfEmptyList) {
 
 TEST(CopyConstructorLinkedhsTest, CopyList) {
     linkedhs students;
-    std::string name1 = "Sasha Ivanov";
-    student student1(18, name1);
+    student student1(18, "Sasha Ivanov");
     students.insert(student1);
-    std::string name2 = "Nastya Kim";
-    student student2(15, name2);
+    student student2(15, "Nastya Kim");
     students.insert(student2);
-    std::string name3 = "Katya Kim";
-    student student3(18, name3);
+    student student3(18, "Katya Kim");
     students.insert(student3);
-    std::string name4 = "Rimma Kats";
-    student student4(19, name4);
+    student student4(19, "Rimma Kats");
     students.insert(student4);
     linkedhs studentsCopy(students);
     EXPECT_TRUE(studentsCopy == students);
 }
 
+
 TEST(CopyConstructorLinkedhsTest, CopiedListUfterRemovingInTheFirtst) {
     linkedhs students;
-    std::string name1 = "Sasha Ivanov";
-    student student1(18, name1);
+    student student1(18, "Sasha Ivanov");
     students.insert(student1);
-    std::string name2 = "Nastya Kim";
-    student student2(15, name2);
+    student student2(15, "Nastya Kim");
     students.insert(student2);
-    std::string name3 = "Katya Kim";
-    student student3(18, name3);
+    student student3(18, "Katya Kim");
     students.insert(student3);
-    std::string name4 = "Rimma Kats";
-    student student4(19, name4);
+    student student4(19, "Rimma Kats");
     students.insert(student4);
     linkedhs studentsCopy(students);
     students.remove(student2);
@@ -248,17 +232,13 @@ TEST(CopyConstructorLinkedhsTest, CopiedListUfterRemovingInTheFirtst) {
 
 TEST(CopyConstructorLinkedhsTest, CopiedListUfterRemovingInTheCopy) {
     linkedhs students;
-    std::string name1 = "Sasha Ivanov";
-    student student1(18, name1);
+    student student1(18, "Sasha Ivanov");
     students.insert(student1);
-    std::string name2 = "Nastya Kim";
-    student student2(15, name2);
+    student student2(15, "Nastya Kim");
     students.insert(student2);
-    std::string name3 = "Katya Kim";
-    student student3(18, name3);
+    student student3(18, "Katya Kim");
     students.insert(student3);
-    std::string name4 = "Rimma Kats";
-    student student4(19, name4);
+    student student4(19, "Rimma Kats");
     students.insert(student4);
     linkedhs studentsCopy(students);
     studentsCopy.remove(student2);
@@ -271,17 +251,13 @@ TEST(CopyConstructorLinkedhsTest, CopiedListUfterRemovingInTheCopy) {
 
 TEST(OperatorAssigningTest, AssigningToList) {
     linkedhs students;
-    std::string name1 = "Sasha Ivanov";
-    student student1(18, name1);
+    student student1(18, "Sasha Ivanov");
     students.insert(student1);
-    std::string name2 = "Nastya Kim";
-    student student2(15, name2);
+    student student2(15, "Nastya Kim");
     students.insert(student2);
-    std::string name3 = "Katya Kim";
-    student student3(18, name3);
+    student student3(18, "Katya Kim");
     students.insert(student3);
-    std::string name4 = "Rimma Kats";
-    student student4(19, name4);
+    student student4(19, "Rimma Kats");
     students.insert(student4);
     linkedhs studentsCopy = students;
     EXPECT_TRUE(studentsCopy == students);
@@ -291,30 +267,22 @@ TEST(OperatorAssigningTest, AssigningToList) {
 
 TEST(SwapTest, SwapingLists) {
     linkedhs students1;
-    std::string name11 = "Sasha Ivanov";
-    student student11(18, name11);
+    student student11(18, "Sasha Ivanov");
     students1.insert(student11);
-    std::string name21 = "Nastya Kim";
-    student student21(15, name21);
+    student student21(15, "Nastya Kim");
     students1.insert(student21);
-    std::string name31 = "Katya Kim";
-    student student31(18, name31);
+    student student31(18, "Katya Kim");
     students1.insert(student31);
-    std::string name41 = "Rimma Kats";
-    student student41(19, name41);
+    student student41(19, "Rimma Kats");
     students1.insert(student41);
     linkedhs students2;
-    std::string name12 = "Sasha Ivanov";
-    student student12(18, name12);
+    student student12(18, "Sasha Ivanov");
     students2.insert(student12);
-    std::string name22 = "Nastya Ivanova";
-    student student22(15, name22);
+    student student22(15, "Nastya Ivanova");
     students2.insert(student22);
-    std::string name32 = "Katya Kim";
-    student student32(18, name32);
+    student student32(18, "Katya Kim");
     students2.insert(student32);
-    std::string name42 = "Rimma Kats";
-    student student42(19, name42);
+    student student42(19, "Rimma Kats");
     students2.insert(student42);
     linkedhs tmp1(students1);
     linkedhs tmp2(students2);
@@ -329,17 +297,13 @@ TEST(SwapTest, SwapingLists) {
 
 TEST(ContainsTest, IfCOntainingCertainElement) {
     linkedhs students;
-    std::string name1 = "Sasha Ivanov";
-    student student1(18, name1);
+    student student1(18, "Sasha Ivanov");
     students.insert(student1);
-    std::string name2 = "Nastya Kim";
-    student student2(15, name2);
+    student student2(15, "Nastya Kim");
     students.insert(student2);
-    std::string name3 = "Katya Kim";
-    student student3(18, name3);
+    student student3(18, "Katya Kim");
     students.insert(student3);
-    std::string name4 = "Rimma Kats";
-    student student4(19, name4);
+    student student4(19, "Rimma Kats");
     bool s1 = students.contains(student2);
     bool s2 = students.contains(student4);
     EXPECT_TRUE(s1);
@@ -348,9 +312,8 @@ TEST(ContainsTest, IfCOntainingCertainElement) {
 
 TEST(ContainsTest, IfEmptyList) {
     linkedhs students;
-    std::string name4 = "Rimma Kats";
-    student student4(19, name4);
-    bool s1 = students.contains(student4);
+    student student1(19, "Rimma Kats");
+    bool s1 = students.contains(student1);
     EXPECT_FALSE(s1);
 }
 
@@ -359,17 +322,13 @@ TEST(ContainsTest, IfEmptyList) {
 class RemoveTest : public ::testing::Test {
 protected:
     void SetUp() {
-        std::string name1 = "Sasha Ivanov";
-        student1 = student(18, name1);
+        student1 = student(18, "Sasha Ivanov");
         students.insert(student1);
-        std::string name2 = "Nastya Kim";
-        student2 = student(15, name2);
+        student2 = student(15, "Nastya Kim");
         students.insert(student2);
-        std::string name3 = "Katya Kim";
-        student3 = student(18, name3);
+        student3 = student(18, "Katya Kim");
         students.insert(student3);
-        std::string name4 = "Rimma Kats";
-        student4 = student(19, name4);
+        student4 = student(19, "Rimma Kats");
         students.insert(student4);
     }
 
@@ -380,39 +339,49 @@ protected:
 TEST_F(RemoveTest, RemovingTheFirstElement) {
     bool s1 = students.contains(student1);
     size_t size1 = students.size();
-    students.remove(student1);
+    bool returnRemove = students.remove(student1);
     size_t size2 = students.size();
     bool s2 = students.contains(student1);
     EXPECT_TRUE(s1);
     EXPECT_EQ(size1, 4);
     EXPECT_EQ(size2, 3);
     EXPECT_FALSE(s2);
+    EXPECT_TRUE(returnRemove);
 }
 
 TEST_F(RemoveTest, RemovingTheLastElement) {
     bool s1 = students.contains(student4);
     size_t size1 = students.size();
-    students.remove(student4);
+    bool returnRemove = students.remove(student4);
     size_t size2 = students.size();
     bool s2 = students.contains(student4);
     EXPECT_TRUE(s1);
     EXPECT_EQ(size1, 4);
     EXPECT_EQ(size2, 3);
     EXPECT_FALSE(s2);
+    EXPECT_TRUE(returnRemove);
+}
+
+TEST_F(RemoveTest, RemovingUnexistedElement) {
+    student student6 = student(17, "Olga Pogibelnaya");
+    bool returnRemove = students.remove(student6);
+    size_t size2 = students.size();
+    EXPECT_FALSE(returnRemove);
+    EXPECT_EQ(size2, 4);
 }
 
 TEST_F(RemoveTest, RemovingTheMiddleElement) {
     bool s1 = students.contains(student3);
     size_t size1 = students.size();
-    students.remove(student3);
+    bool returnRemove = students.remove(student3);
     size_t size2 = students.size();
     bool s2 = students.contains(student3);
     EXPECT_TRUE(s1);
     EXPECT_EQ(size1, 4);
     EXPECT_EQ(size2, 3);
     EXPECT_FALSE(s2);
+    EXPECT_TRUE(returnRemove);
 }
-
 
 int main() {
     testing::InitGoogleTest();
