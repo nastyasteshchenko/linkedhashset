@@ -1,6 +1,4 @@
 #pragma once
-#ifndef RELINKEDHASHSET_LINKEDHASHSET_H
-#define RELINKEDHASHSET_LINKEDHASHSET_H
 
 #include "student.h"
 #include <list>
@@ -9,7 +7,6 @@
 class linkedhs {
 public:
 
-    //assigns nullptr to pointers to nodes head_, last_, parent_ присваивает nullptr, assigns 0 to listSize_
     linkedhs();
 
     linkedhs(const linkedhs &other);
@@ -43,21 +40,21 @@ public:
     bool contains(const element &e) const;
 
     //looks for the certain element in the list
-    //returns the certain element in the list
+    //returns the certain element in the list if it exists, returns end() otherwise
+    std::_List_iterator<student> find(const element &e);
 
     //clears the list
     void clear();
 
-    auto begin() const;
+    std::_List_const_iterator<student> begin() const;
 
-    auto end() const;
+    std::_List_const_iterator<student> end() const;
 
 private:
-    size_t sizeOfVector;
+    size_t sizeOfVector_;
     int capacityOfVector_;
-    size_t sizeOfList;
-    std::vector<std::list<element>> hashSetVect;
+    size_t sizeOfList_;
+    std::vector<std::list<element>> hashSet;
     std::list<element> oderOfStudents;
 };
 
-#endif //RELINKEDHASHSET_LINKEDHASHSET_H
