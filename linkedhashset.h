@@ -3,10 +3,8 @@
 #define RELINKEDHASHSET_LINKEDHASHSET_H
 
 #include "student.h"
-#include <array>
 #include <list>
-
-#define CAPACITY_OF_ARRAY 255
+#include <vector>
 
 class linkedhs {
 public:
@@ -54,14 +52,11 @@ public:
 
     auto end() const;
 
-    void printList(); //prints the list
-
 private:
-    friend class iterator;
-
-    int capacityOfArray_;
+    size_t sizeOfVector;
+    int capacityOfVector_;
     size_t sizeOfList;
-    std::array<std::list<element>, CAPACITY_OF_ARRAY> hashSet;
+    std::vector<std::list<element>> hashSetVect;
     std::list<element> oderOfStudents;
 };
 
