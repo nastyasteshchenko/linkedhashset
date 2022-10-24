@@ -1,6 +1,4 @@
-#ifndef LAB1_STUDENT_H
-#define LAB1_STUDENT_H
-
+#pragma once
 #include <iostream>
 
 struct student {
@@ -21,5 +19,3 @@ struct student {
 };
 
 typedef student element;
-
-#endif //LAB1_STUDENT_H
