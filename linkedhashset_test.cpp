@@ -360,48 +360,69 @@ TEST(InsertTest, Empty) {
     }
 }
 
-TEST(InsertTest, AddingStudents) {
+TEST(InsertTest, TwoElements) {
     linkedhs students;
-    student arrOfStudent[2];
-    arrOfStudent[0] = student(18, "Sasha Ivanov");
-    bool s1 = students.insert(arrOfStudent[0]);
-    EXPECT_TRUE(s1);
-    arrOfStudent[1] = student(15, "Nastya Kim");
-    bool s2 = students.insert(arrOfStudent[1]);
-    EXPECT_TRUE(s2);
+    student s1(18, "Sasha Ivanov");
+    EXPECT_TRUE(students.insert(s1));
+    EXPECT_EQ(students.size(), 1);
+
+    student s2(15, "Nastya Kim");
+    EXPECT_TRUE(students.insert(s2));
     EXPECT_EQ(students.size(), 2);
-    auto begin = students.begin();
-    auto it = begin;
-    auto end = students.end();
-    int i = 0;
-    while (it != end) {
-        EXPECT_EQ(it->age_, arrOfStudent[i].age_);
-        EXPECT_EQ(it->name_, arrOfStudent[i].name_);
-        it++;
-        i++;
-    }
+
+    EXPECT_TRUE(students.contains(s1));
+    EXPECT_TRUE(students.contains(s2));
+
+    // student arrOfStudent[2];
+    // arrOfStudent[0] = student(18, "Sasha Ivanov");
+    // bool s1 = students.insert(arrOfStudent[0]);
+    // EXPECT_TRUE(s1);
+    // arrOfStudent[1] = student(15, "Nastya Kim");
+    // bool s2 = students.insert(arrOfStudent[1]);
+    // EXPECT_TRUE(s2);
+    // EXPECT_EQ(students.size(), 2);
+    // auto begin = students.begin();
+    // auto it = begin;
+    // auto end = students.end();
+    // int i = 0;
+    // while (it != end) {
+    //     EXPECT_EQ(it->age_, arrOfStudent[i].age_);
+    //     EXPECT_EQ(it->name_, arrOfStudent[i].name_);
+    //     it++;
+    //     i++;
+    // }
 }
 
-TEST(InsertTest, Doubling1) {
-    linkedhs students;
-    student arrOfStudent[2];
-    arrOfStudent[0] = student(18, "Sasha Ivanov");
-    bool s1 = students.insert(arrOfStudent[0]);
-    EXPECT_TRUE(s1);
-    arrOfStudent[1] = student(18, "Sasha Ivanov");
-    bool s2 = students.insert(arrOfStudent[1]);
-    EXPECT_FALSE(s2);
+TEST(InsertTest, SameElement) {
+      linkedhs students;
+    student s1(18, "Sasha Ivanov");
+    EXPECT_TRUE(students.insert(s1));
     EXPECT_EQ(students.size(), 1);
-    auto begin = students.begin();
-    auto it = begin;
-    auto end = students.end();
-    int i = 0;
-    while (it != end) {
-        EXPECT_EQ(it->age_, arrOfStudent[i].age_);
-        EXPECT_EQ(it->name_, arrOfStudent[i].name_);
-        it++;
-        i++;
-    }
+    EXPECT_TRUE(students.contains(s1));
+
+    EXPECT_FALSE(students.insert(s1));
+    EXPECT_EQ(students.size(), 1);
+
+
+    // linkedhs students;
+    // student arrOfStudent[2];
+    // arrOfStudent[0] = student(18, "Sasha Ivanov");
+    // bool s1 = students.insert(arrOfStudent[0]);
+    // EXPECT_TRUE(s1);
+    // arrOfStudent[1] = student(18, "Sasha Ivanov");
+    // bool s2 = students.insert(arrOfStudent[1]);
+    // EXPECT_FALSE(s2);
+    // EXPECT_EQ(students.size(), 1);
+    // auto begin = students.begin();
+    // auto it = begin;
+    // auto end = students.end();
+    // int i = 0;
+    // while (it != end) {
+    //     EXPECT_EQ(it->age_, arrOfStudent[i].age_);
+    //     EXPECT_EQ(it->name_, arrOfStudent[i].name_);
+    //     it++;
+    //     i++;
+    // }
 }
 
 TEST(InsertTest, Doubling2) {

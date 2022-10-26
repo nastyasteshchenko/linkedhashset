@@ -10,8 +10,9 @@ struct student {
 
     bool operator!=(const student &other) const;
 
-    long long int hash() const; //counts hash for the student
+    //counts hash for the student
     //returns value of hash
+    long long int hash() const;
 
     unsigned age_;
     std::string name_;

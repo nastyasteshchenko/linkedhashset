@@ -10,7 +10,7 @@ public:
     linkedhs();
 
     linkedhs(const linkedhs &other);
-
+    // CR: comments
     linkedhs &operator=(const linkedhs &other);
 
     bool operator==(const linkedhs &other) const;
@@ -41,19 +41,21 @@ public:
 
     //looks for the certain element in the list
     //returns the certain element in the list if it exists, returns end() otherwise
-    std::_List_iterator<student> find(const element &e);
+    std::list<student>::const_iterator find(const element &e) const;
 
     //clears the list
     void clear();
 
-    std::_List_const_iterator<student> begin() const;
+    std::list<student>::const_iterator begin() const;
 
-    std::_List_const_iterator<student> end() const;
+    std::list<student>::const_iterator end() const;
 
 private:
+    // CR: remove
     size_t sizeOfVector_;
     int capacityOfVector_;
     size_t sizeOfList_;
+    // CR: use pointers to lists instead of lists by themselves
     std::vector<std::list<element>> hashSet;
     std::list<element> oderOfStudents;
 };
