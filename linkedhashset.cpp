@@ -1,34 +1,38 @@
 #include "linkedhashset.h"
+#include <iostream>
 
-#define DEFAULT_CAPACITY_OF_VECTOR 16
-#define LOADING_FACTOR 0.75
-
-linkedhs::linkedhs() : sizeOfVector_(0), capacityOfVector_(DEFAULT_CAPACITY_OF_VECTOR), sizeOfList_(0) {
+linkedhs::linkedhs() : capacityOfVector_(DEFAULT_CAPACITY_OF_VECTOR), sizeOfList_(0) {
     hashSet.resize(DEFAULT_CAPACITY_OF_VECTOR);
+    std::fill(hashSet.begin(), hashSet.end(), nullptr);
 }
 
-linkedhs::linkedhs(const linkedhs &other) {
-    hashSet.resize(DEFAULT_CAPACITY_OF_VECTOR);
+linkedhs::~linkedhs() {
+    clearHashSet();
+}
+
+linkedhs::linkedhs(const linkedhs &other) : capacityOfVector_(other.capacityOfVector_), sizeOfList_(0) {
+    hashSet.resize(capacityOfVector_);
+    for (const auto &it: other)
+        insert(student(it.age_, it.name_));
+}
+
+linkedhs &linkedhs::operator=(const linkedhs &other) {
     this->capacityOfVector_ = other.capacityOfVector_;
-    this->sizeOfList_ = 0;
-    this->sizeOfVector_ = 0;
-    auto begin = other.oderOfStudents.begin();
-    auto it = begin;
-    auto end = other.oderOfStudents.end();
-    element e;
-    while (it != end) {
-        e = student(it->age_, it->name_);
-        this->insert(e);
-        it++;
-    }
+    for (size_t i = 0; i < other.capacityOfVector_; i++)
+        if (other.hashSet.at(i) != nullptr)
+            this->hashSet.at(i) = other.hashSet.at(i);
+    this->oderOfStudents = other.oderOfStudents;
+    this->sizeOfList_ = other.sizeOfList_;
+    return *this;
 }
-
-linkedhs &linkedhs::operator=(const linkedhs &other) = default;
 
 bool linkedhs::operator==(const linkedhs &other) const {
-    return this->capacityOfVector_ == other.capacityOfVector_ &&
-           this->hashSet == other.hashSet && this->sizeOfList_ == other.sizeOfList_ &&
-           this->sizeOfVector_ == other.sizeOfVector_;
+    if (sizeOfList_ != other.sizeOfList_)
+        return false;
+    for (const auto &it: other)
+        if (!this->contains(student(it.age_, it.name_)))
+            return false;
+    return true;
 }
 
 bool linkedhs::operator!=(const linkedhs &other) const {
@@ -36,29 +40,36 @@ bool linkedhs::operator!=(const linkedhs &other) const {
 }
 
 bool linkedhs::insert(const element &e) {
-    if ((sizeOfVector_ * LOADING_FACTOR) >= capacityOfVector_) {
-        hashSet.resize(capacityOfVector_ * 2);
-        capacityOfVector_ *= 2;
-    }
     if (contains(e))
         return false;
+    if ((double) sizeOfList_ / capacityOfVector_ >= LOADING_FACTOR){
+        capacityOfVector_ *= 2;
+        this->resize(capacityOfVector_);
+    }
     long long int hash = e.hash() % capacityOfVector_;
-    if (hashSet.at(hash).empty())
-        sizeOfVector_++;
-    hashSet.at(hash).push_back(e);
+    if (hashSet.at(hash) == nullptr) {
+        auto elemOfHashSet = new std::list<elementOfHashSet>;
+        hashSet.at(hash) = elemOfHashSet;
+    }
     oderOfStudents.push_back(e);
+    elementOfHashSet tmp = {e, --oderOfStudents.end()};
+    hashSet.at(hash)->push_back(tmp);
     sizeOfList_++;
     return true;
 }
 
 bool linkedhs::remove(const element &e) {
-    long long int hash = e.hash() % capacityOfVector_;
     if (!contains(e))
         return false;
-    hashSet.at(hash).remove(e);
-    oderOfStudents.remove(e);
+    long long int hash = e.hash() % capacityOfVector_;
+    if (hashSet.at(hash) != nullptr)
+        for (auto it = hashSet.at(hash)->begin(); it != hashSet.at(hash)->end(); it++)
+            if (it->student == e) {
+                oderOfStudents.erase(it->pointerToElemInOderList);
+                hashSet.at(hash)->erase(it);
+                break;
+            }
     sizeOfList_--;
-    sizeOfVector_--;
     return true;
 }
 
@@ -67,7 +78,6 @@ void linkedhs::swap(linkedhs &other) {
     std::swap(this->oderOfStudents, other.oderOfStudents);
     std::swap(this->capacityOfVector_, other.capacityOfVector_);
     std::swap(this->sizeOfList_, other.sizeOfList_);
-    std::swap(this->sizeOfVector_, other.sizeOfVector_);
 }
 
 size_t linkedhs::size() const {
@@ -75,52 +85,61 @@ size_t linkedhs::size() const {
 }
 
 bool linkedhs::empty() const {
-    return sizeOfList_ == 0;
+    return size() == 0;
 }
 
 bool linkedhs::contains(const element &e) const {
     if (sizeOfList_ == 0)
         return false;
-    long long int hash = e.hash() % capacityOfVector_;
-    auto begin = hashSet.at(hash).begin();
-    auto end = hashSet.at(hash).end();
-    auto it = begin;
-    while (it != end) {
-        if (it->age_ == e.age_ && it->name_ == e.name_)
-            return true;
-        it++;
-    }
-    return false;
+    return find(e) != end();
 }
 
-std::_List_iterator<student> linkedhs::find(const element &e) {
+std::list<element>::const_iterator linkedhs::find(const element &e) const {
     long long int hash = e.hash() % capacityOfVector_;
-    auto begin = hashSet.at(hash).begin();
-    auto end = hashSet.at(hash).end();
-    auto it = begin;
-    while (it != end) {
-        if (it->age_ == e.age_ && it->name_ == e.name_)
-            return it;
-        it++;
-    }
-    return oderOfStudents.end();
+    if (hashSet.at(hash) == nullptr)
+        return end();
+    for (auto &it: *hashSet.at(hash))
+        if (e == it.student)
+            return it.pointerToElemInOderList;
+    return end();
 }
 
 void linkedhs::clear() {
-    for (size_t i = 0; i < sizeOfList_; i++) {
-        hashSet.vector::at(i).clear();
-    }
+    clearHashSet();
     oderOfStudents.clear();
     sizeOfList_ = 0;
-    sizeOfVector_ = 0;
     hashSet.resize(DEFAULT_CAPACITY_OF_VECTOR);
+    std::fill(hashSet.begin(), hashSet.end(), nullptr);
 }
 
-std::_List_const_iterator<student> linkedhs::begin() const {
+std::list<student>::const_iterator linkedhs::begin() const {
     return oderOfStudents.begin();
 }
 
-std::_List_const_iterator<student> linkedhs::end() const {
+std::list<student>::const_iterator linkedhs::end() const {
     return oderOfStudents.end();
 }
 
+void linkedhs::resize(size_t capacity) {
+    std::vector<std::list<elementOfHashSet> *> tmpVector(capacity);
+    std::fill(tmpVector.begin(), tmpVector.end(), nullptr);
+    for (size_t i = 0; i < capacity / 2; i++)
+        if (hashSet.at(i) != nullptr)
+            for (auto &it: *hashSet.at(i)) {
+                long long int hash = it.student.hash() % capacityOfVector_;
+                if (tmpVector.at(hash) == nullptr) {
+                    auto elemOfHashSet = new std::list<elementOfHashSet>;
+                    tmpVector.at(hash) = elemOfHashSet;
+                }
+                elementOfHashSet tmp = {it.student, it.pointerToElemInOderList};
+                tmpVector.at(hash)->push_back(tmp);
+            }
+    this->clearHashSet();
+    this->hashSet = tmpVector;
+}
+
+void linkedhs::clearHashSet() {
+    for (size_t i = 0; i < sizeOfList_; i++)
+        if (hashSet.at(i) != nullptr)
+            delete hashSet.at(i);
+}
