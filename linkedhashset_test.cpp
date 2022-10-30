@@ -223,7 +223,7 @@ TEST(ContainsTest, ExistedElement) {
     EXPECT_TRUE(students.contains(student2));
 }
 
-TEST(ContainsTest, UnExistedElement) {
+TEST(ContainsTest, UnexistedElement) {
     linkedhs students;
     student student1(18, "Sasha Ivanov");
     students.insert(student1);
@@ -262,7 +262,7 @@ TEST(FindTest, ExistedElement) {
     EXPECT_TRUE(students.find(s3) != students.end());
 }
 
-TEST(FindTest, UnExistedElement) {
+TEST(FindTest, UnexistedElement) {
     linkedhs students;
     student s1(18, "Sasha Ivanov");
     students.insert(s1);
@@ -597,7 +597,7 @@ TEST(CopyConstructorLinkedhsTest, NotEmpty) {
 }
 
 
-TEST(CopyConstructorLinkedhsTest, UfterRemoving) {
+TEST(CopyConstructorLinkedhsTest, Removing) {
     linkedhs students;
     student s1(18, "Sasha Ivanov");
     students.insert(s1);
@@ -771,7 +771,7 @@ TEST(ConstructorStudentTest, Declaration) {
 
 //operator!=()
 
-TEST(OperatorNotEqStudentsTest, NotEqForEqStudents) {
+TEST(OperatorNotEqStudentsTest, EqStudents) {
     linkedhs students;
     student s1(18, "Sasha Ivanov");
     students.insert(s1);
@@ -780,7 +780,7 @@ TEST(OperatorNotEqStudentsTest, NotEqForEqStudents) {
     EXPECT_FALSE(s1 != s2);
 }
 
-TEST(OperatorNotEqStudentsTest, NotEqForNotEqStudents) {
+TEST(OperatorNotEqStudentsTest, NotEqStudents) {
     linkedhs students;
     student s1(18, "Sasha Ivanov");
     students.insert(s1);
@@ -791,7 +791,7 @@ TEST(OperatorNotEqStudentsTest, NotEqForNotEqStudents) {
 
 //operator==()
 
-TEST(OperatorEqStudentsTest, EqForEqStudents) {
+TEST(OperatorEqStudentsTest, EqStudents) {
     linkedhs students;
     student s1(18, "Sasha Ivanov");
     students.insert(s1);
@@ -800,7 +800,7 @@ TEST(OperatorEqStudentsTest, EqForEqStudents) {
     EXPECT_TRUE(s1 == s2);
 }
 
-TEST(OperatorEqStudentsTest, EqForNotEqStudents) {
+TEST(OperatorEqStudentsTest, NotEqStudents) {
     linkedhs students;
     student s1(18, "Sasha Ivanov");
     students.insert(s1);
