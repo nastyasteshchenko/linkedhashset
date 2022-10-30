@@ -16,13 +16,9 @@ public:
 
     //creates new linkedHashSet and assigns values from elements of other linkedHashSet to elements of new one
     linkedhs(const linkedhs &other);
-<<<<<<< HEAD
 
     //assigns values from elements of vector other.hashSet to elements of vector this->hashSet
     //assigns other.oderOfStudents to this->oderOfStudent
-=======
-    // CR: comments
->>>>>>> a81f21a9071292090b824e9afc9330e17dd45e68
     linkedhs &operator=(const linkedhs &other);
 
     //returns false if linkedHashSets don't have the same elements of students
@@ -55,19 +51,13 @@ public:
     //returns true if element with certain hash exists, returns false otherwise
     bool contains(const element &e) const;
 
-<<<<<<< HEAD
     //looks for the certain element in linkedHashSet
     //returns the certain element in linkedHashSet if it exists, returns end() otherwise
-=======
-    //looks for the certain element in the list
-    //returns the certain element in the list if it exists, returns end() otherwise
->>>>>>> a81f21a9071292090b824e9afc9330e17dd45e68
     std::list<student>::const_iterator find(const element &e) const;
 
     //clears linkedHashSet
     void clear();
 
-<<<<<<< HEAD
     //returns iterator on the first element of oderOfStudents list
     std::list<student>::const_iterator begin() const;
 
@@ -83,19 +73,6 @@ private:
     constexpr static const double LOADING_FACTOR = 0.75;
     size_t capacityOfVector_;
     size_t sizeOfList_;
-=======
-    std::list<student>::const_iterator begin() const;
-
-    std::list<student>::const_iterator end() const;
-
-private:
-    // CR: remove
-    size_t sizeOfVector_;
-    int capacityOfVector_;
-    size_t sizeOfList_;
-    // CR: use pointers to lists instead of lists by themselves
-    std::vector<std::list<element>> hashSet;
->>>>>>> a81f21a9071292090b824e9afc9330e17dd45e68
     std::list<element> oderOfStudents;
     std::vector<std::list<elementOfHashSet> *> hashSet;
 
