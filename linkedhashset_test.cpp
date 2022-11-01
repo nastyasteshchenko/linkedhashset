@@ -3,6 +3,11 @@
 
 //linkedhs
 
+//constructor
+TEST(ConstructorTest, Constructor){
+    linkedhs students;
+    EXPECT_EQ(students.size(), 0);
+}
 //insert()
 
 TEST(InsertTest, Empty) {
