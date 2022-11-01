@@ -4,6 +4,9 @@ project(linkedhashset VERSION 0.1)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+add_compile_options(-fsanitize=address)
+add_link_options(-fsanitize=address)
+
 add_executable(relinkedhashset main.cpp student.cpp linkedhashset.cpp linkedhashset_test.cpp)
 
 add_executable(linkedhashset_test linkedhashset.cpp student.cpp linkedhashset_test.cpp)
