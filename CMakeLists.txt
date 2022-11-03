@@ -22,6 +22,7 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 SET(WARN_FLAGS "-Wall -Wpedantic -Wextra")
+# CR: https://github.com/google/sanitizers/wiki/AddressSanitizer
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${WARN_FLAGS} ${ASAN_OPTIONS}")
 
 enable_testing()
