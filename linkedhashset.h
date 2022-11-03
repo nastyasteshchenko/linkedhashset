@@ -2,13 +2,14 @@
 
 #include "student.h"
 #include <list>
+#include <utility>
 #include <vector>
 
 class linkedhs {
 public:
 
-    //assigns the value 0 to sizeOfList_, the value DEFAULT_CAPACITY_OF_VECTOR to capacityOfVector_
-    //makes resize of hashSet to DEFAULT_CAPACITY_OF_VECTOR elements and fills hashSet nullptr value
+    //assigns the value 0 to size_, the value DEFAULT_CAPACITY_OF_VECTOR to capacity_
+    //makes resize of data to DEFAULT_CAPACITY_OF_VECTOR elements and fills data nullptr value
     linkedhs();
 
     //clears memory of HashSet
@@ -17,16 +18,16 @@ public:
     //creates new linkedHashSet and assigns values from elements of other linkedHashSet to elements of new one
     linkedhs(const linkedhs &other);
 
-    //assigns values from elements of vector other.hashSet to elements of vector this->hashSet
-    //assigns other.oderOfStudents to this->oderOfStudent
+    //assigns values from elements of vector other.data to elements of vector this->data
+    //assigns other.elementsInOrder_ to this->oderOfStudent
     linkedhs &operator=(const linkedhs &other);
 
-    //returns false if linkedHashSets don't have the same elements of students
-    //returns true if linkedHashSets have the same elements of students
+    //returns false if linkedHashSets don't have the same elements of student
+    //returns true if linkedHashSets have the same elements of student
     bool operator==(const linkedhs &other) const;
 
-    //returns false if linkedHashSets have the same elements of students
-    //returns true if linkedHashSets don't have the same elements of students
+    //returns false if linkedHashSets have the same elements of student
+    //returns true if linkedHashSets don't have the same elements of student
     bool operator!=(const linkedhs &other) const;
 
     //adds new element to linkedHashSet
@@ -53,33 +54,35 @@ public:
 
     //looks for the certain element in linkedHashSet
     //returns the certain element in linkedHashSet if it exists, returns end() otherwise
-    std::list<student>::const_iterator find(const element &e) const;
+    std::list<element>::const_iterator find(const element &e) const;
 
     //clears linkedHashSet
     void clear();
 
-    //returns iterator on the first element of oderOfStudents list
-    std::list<student>::const_iterator begin() const;
+    //returns iterator on the first element of elementsInOrder_ list
+    std::list<element>::const_iterator begin() const;
 
-    //returns iterator on the after last element of oderOfStudents list
-    std::list<student>::const_iterator end() const;
+    //returns iterator on the after last element of elementsInOrder_ list
+    std::list<element>::const_iterator end() const;
 
 private:
-    struct elementOfHashSet {
-        element student;
-        std::list<element>::const_iterator pointerToElemInOderList;
-    };
+
     static const unsigned DEFAULT_CAPACITY_OF_VECTOR = 1;
     constexpr static const double LOADING_FACTOR = 0.75;
-    size_t capacityOfVector_;
-    size_t sizeOfList_;
-    std::list<element> oderOfStudents;
-    std::vector<std::list<elementOfHashSet> *> hashSet;
+
+    size_t capacity_;
+    size_t size_;
+
+    std::list<element> elementsInOrder_;
+    std::vector<std::list< std::list<element>::const_iterator> *> data_;
 
     //resizes vector; makes the elements move relative to the new capacity
     void resize(size_t capacity);
 
-    //clear memory of hashSet
+    //adds elements in new vector of linkedHashSet according to new capacity
+    void insertInVector(std::list<element>::const_iterator &it);
+
+    //clear memory of data_
     void clearHashSet();
 };
 
