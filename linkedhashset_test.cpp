@@ -4,43 +4,18 @@
 //linkedhs
 
 //constructor
-TEST(ConstructorTest, Constructor){
+
+TEST(ConstructorTest, Constructor) {
     linkedhs students;
     EXPECT_EQ(students.size(), 0);
 }
+
 //insert()
 
 TEST(InsertTest, Empty) {
     linkedhs students;
     student s1(18, "Sasha Ivanov");
     EXPECT_TRUE(students.insert(s1));
-    EXPECT_EQ(students.size(), 1);
-
-    EXPECT_TRUE(students.contains(s1));
-}
-
-TEST(InsertTest, TwoElements) {
-    linkedhs students;
-    student s1(18, "Sasha Ivanov");
-    EXPECT_TRUE(students.insert(s1));
-    EXPECT_EQ(students.size(), 1);
-
-    student s2(15, "Nastya Kim");
-    EXPECT_TRUE(students.insert(s2));
-    EXPECT_EQ(students.size(), 2);
-
-    EXPECT_TRUE(students.contains(s1));
-    EXPECT_TRUE(students.contains(s2));
-}
-
-TEST(InsertTest, TwoEqElements) {
-    linkedhs students;
-    student s1 = student(18, "Sasha Ivanov");
-    EXPECT_TRUE(students.insert(s1));
-    EXPECT_EQ(students.size(), 1);
-
-    student s2 = student(18, "Sasha Ivanov");
-    EXPECT_FALSE(students.insert(s2));
     EXPECT_EQ(students.size(), 1);
 
     EXPECT_TRUE(students.contains(s1));
@@ -375,62 +350,227 @@ TEST(OperatorAssigningTest, NotEmpty) {
     EXPECT_TRUE(studentsTmp.contains(s4));
 }
 
+TEST(OperatorAssigningTest, NotEmptyBoth) {
+    linkedhs students1;
+    student s11(18, "Masha Ivanova");
+    students1.insert(s11);
+    student s21(15, "Nastya Kim");
+    students1.insert(s21);
+    student s31(18, "Katya Kim");
+    students1.insert(s31);
+    student s41(19, "Rimma Kats");
+    students1.insert(s41);
+
+    linkedhs students2;
+    student s12(18, "Sasha Ivanov");
+    students2.insert(s12);
+    student s22(15, "Nastya Kim");
+    students2.insert(s22);
+    student s32(18, "Kostya Kim");
+    students2.insert(s32);
+    student s42(19, "Rimma Kats");
+    students2.insert(s42);
+
+    students1 = students2;
+
+    EXPECT_FALSE(students1.empty());
+    EXPECT_TRUE(students1 == students2);
+
+    EXPECT_TRUE(students1.contains(s12));
+    EXPECT_TRUE(students1.contains(s22));
+    EXPECT_TRUE(students1.contains(s32));
+    EXPECT_TRUE(students1.contains(s42));
+
+    EXPECT_FALSE(students1.contains(s31));
+}
+
+TEST(OperatorAssigningTest, EqLinkedhs) {
+    linkedhs students1;
+    student s11(18, "Sasha Ivanov");
+    students1.insert(s11);
+    student s21(15, "Nastya Kim");
+    students1.insert(s21);
+    student s31(18, "Katya Kim");
+    students1.insert(s31);
+    student s41(19, "Rimma Kats");
+    students1.insert(s41);
+
+    linkedhs students2;
+    student s12(18, "Sasha Ivanov");
+    students2.insert(s12);
+    student s22(15, "Nastya Kim");
+    students2.insert(s22);
+    student s32(18, "Katya Kim");
+    students2.insert(s32);
+    student s42(19, "Rimma Kats");
+    students2.insert(s42);
+
+    students1 = students2;
+    EXPECT_FALSE(students1.empty());
+    EXPECT_TRUE(students1 == students2);
+
+    EXPECT_TRUE(students1.contains(s12));
+    EXPECT_TRUE(students1.contains(s22));
+    EXPECT_TRUE(students1.contains(s32));
+    EXPECT_TRUE(students1.contains(s42));
+}
+
+TEST(OperatorAssigningTest, Removing) {
+    linkedhs students1;
+    student s11(18, "Masha Ivanova");
+    students1.insert(s11);
+    student s21(15, "Nastya Kim");
+    students1.insert(s21);
+    student s31(18, "Kostya Kim");
+    students1.insert(s31);
+    student s41(19, "Rimma Kats");
+    students1.insert(s41);
+
+    linkedhs students2;
+    student s12(18, "Sasha Ivanov");
+    students2.insert(s12);
+    student s22(15, "Nastya Kim");
+    students2.insert(s22);
+    student s32(18, "Katya Kim");
+    students2.insert(s32);
+    student s42(19, "Rimma Kats");
+    students2.insert(s42);
+
+    students1 = students2;
+
+    students2.remove(s22);
+    EXPECT_EQ(students2.size(), 3);
+    EXPECT_EQ(students1.size(), 4);
+    EXPECT_FALSE(students1 == students2);
+
+    EXPECT_TRUE(students1.contains(s12));
+    EXPECT_TRUE(students1.contains(s22));
+    EXPECT_TRUE(students1.contains(s32));
+    EXPECT_TRUE(students1.contains(s42));
+
+    EXPECT_TRUE(students2.contains(s12));
+    EXPECT_FALSE(students2.contains(s22));
+    EXPECT_TRUE(students2.contains(s32));
+    EXPECT_TRUE(students2.contains(s42));
+}
+
+TEST(OperatorAssigningTest, RemovingInTheCopy) {
+    linkedhs students1;
+    student s11(18, "Masha Ivanova");
+    students1.insert(s11);
+    student s21(15, "Nastya Kim");
+    students1.insert(s21);
+    student s31(18, "Kostya Kim");
+    students1.insert(s31);
+    student s41(19, "Rimma Kats");
+    students1.insert(s41);
+
+    linkedhs students2;
+    student s12(18, "Sasha Ivanov");
+    students2.insert(s12);
+    student s22(15, "Nastya Kim");
+    students2.insert(s22);
+    student s32(18, "Katya Kim");
+    students2.insert(s32);
+    student s42(19, "Rimma Kats");
+    students2.insert(s42);
+
+    students1 = students2;
+
+    students1.remove(s22);
+    EXPECT_EQ(students2.size(), 4);
+    EXPECT_EQ(students1.size(), 3);
+    EXPECT_FALSE(students1 == students2);
+
+    EXPECT_TRUE(students1.contains(s12));
+    EXPECT_FALSE(students1.contains(s22));
+    EXPECT_TRUE(students1.contains(s32));
+    EXPECT_TRUE(students1.contains(s42));
+
+    EXPECT_TRUE(students2.contains(s12));
+    EXPECT_TRUE(students2.contains(s22));
+    EXPECT_TRUE(students2.contains(s32));
+    EXPECT_TRUE(students2.contains(s42));
+}
+
 TEST(OperatorAssigningTest, ClearingOther) {
-    linkedhs students;
-    student s1(18, "Sasha Ivanov");
-    students.insert(s1);
-    student s2(15, "Nastya Kim");
-    students.insert(s2);
-    student s3(18, "Katya Kim");
-    students.insert(s3);
-    student s4(19, "Rimma Kats");
-    students.insert(s4);
-    linkedhs studentsTmp = students;
-    EXPECT_TRUE(studentsTmp == students);
+    linkedhs students1;
+    student s11(18, "Masha Ivanova");
+    students1.insert(s11);
+    student s21(15, "Nastya Kim");
+    students1.insert(s21);
+    student s31(18, "Kostya Kim");
+    students1.insert(s31);
+    student s41(19, "Rimma Kats");
+    students1.insert(s41);
 
-    students.clear();
-    EXPECT_EQ(students.size(), 0);
-    EXPECT_EQ(studentsTmp.size(), 4);
-    EXPECT_TRUE(studentsTmp != students);
+    linkedhs students2;
+    student s12(18, "Sasha Ivanov");
+    students2.insert(s12);
+    student s22(15, "Nastya Kim");
+    students2.insert(s22);
+    student s32(18, "Katya Kim");
+    students2.insert(s32);
+    student s42(19, "Rimma Kats");
+    students2.insert(s42);
 
-    EXPECT_FALSE(students.contains(s1));
-    EXPECT_FALSE(students.contains(s2));
-    EXPECT_FALSE(students.contains(s3));
-    EXPECT_FALSE(students.contains(s4));
+    students1 = students2;
+    EXPECT_TRUE(students1 == students2);
 
-    EXPECT_TRUE(studentsTmp.contains(s1));
-    EXPECT_TRUE(studentsTmp.contains(s2));
-    EXPECT_TRUE(studentsTmp.contains(s3));
-    EXPECT_TRUE(studentsTmp.contains(s4));
+    students2.clear();
+    EXPECT_EQ(students2.size(), 0);
+    EXPECT_EQ(students1.size(), 4);
+    EXPECT_TRUE(students1 != students2);
+
+    EXPECT_FALSE(students2.contains(s12));
+    EXPECT_FALSE(students2.contains(s22));
+    EXPECT_FALSE(students2.contains(s32));
+    EXPECT_FALSE(students2.contains(s42));
+
+    EXPECT_TRUE(students1.contains(s12));
+    EXPECT_TRUE(students1.contains(s22));
+    EXPECT_TRUE(students1.contains(s32));
+    EXPECT_TRUE(students1.contains(s42));
 }
 
 TEST(OperatorAssigningTest, ClearingThis) {
-    linkedhs students;
-    student s1(18, "Sasha Ivanov");
-    students.insert(s1);
-    student s2(15, "Nastya Kim");
-    students.insert(s2);
-    student s3(18, "Katya Kim");
-    students.insert(s3);
-    student s4(19, "Rimma Kats");
-    students.insert(s4);
-    linkedhs studentsTmp = students;
-    EXPECT_TRUE(studentsTmp == students);
+    linkedhs students1;
+    student s11(18, "Masha Ivanova");
+    students1.insert(s11);
+    student s21(15, "Nastya Kim");
+    students1.insert(s21);
+    student s31(18, "Kostya Kim");
+    students1.insert(s31);
+    student s41(19, "Rimma Kats");
+    students1.insert(s41);
 
-    studentsTmp.clear();
-    EXPECT_EQ(students.size(), 4);
-    EXPECT_EQ(studentsTmp.size(), 0);
-    EXPECT_TRUE(studentsTmp != students);
+    linkedhs students2;
+    student s12(18, "Sasha Ivanov");
+    students2.insert(s12);
+    student s22(15, "Nastya Kim");
+    students2.insert(s22);
+    student s32(18, "Katya Kim");
+    students2.insert(s32);
+    student s42(19, "Rimma Kats");
+    students2.insert(s42);
 
-    EXPECT_FALSE(studentsTmp.contains(s1));
-    EXPECT_FALSE(studentsTmp.contains(s2));
-    EXPECT_FALSE(studentsTmp.contains(s3));
-    EXPECT_FALSE(studentsTmp.contains(s4));
+    students1 = students2;
+    EXPECT_TRUE(students1 == students2);
 
-    EXPECT_TRUE(students.contains(s1));
-    EXPECT_TRUE(students.contains(s2));
-    EXPECT_TRUE(students.contains(s3));
-    EXPECT_TRUE(students.contains(s4));
+    students1.clear();
+    EXPECT_EQ(students2.size(), 4);
+    EXPECT_EQ(students1.size(), 0);
+    EXPECT_TRUE(students1 != students2);
+
+    EXPECT_FALSE(students1.contains(s12));
+    EXPECT_FALSE(students1.contains(s22));
+    EXPECT_FALSE(students1.contains(s32));
+    EXPECT_FALSE(students1.contains(s42));
+
+    EXPECT_TRUE(students2.contains(s12));
+    EXPECT_TRUE(students2.contains(s22));
+    EXPECT_TRUE(students2.contains(s32));
+    EXPECT_TRUE(students2.contains(s42));
 }
 
 //operator==()
@@ -577,6 +717,13 @@ TEST(OperatorNotEqListsTest, EqLists) {
 
 //copy constructor
 
+TEST(CopyConstructorLinkedhsTest, Empty) {
+    linkedhs students;
+    const linkedhs &studentsTmp(students);
+    EXPECT_TRUE(studentsTmp.empty());
+    EXPECT_TRUE(studentsTmp == students);
+}
+
 TEST(CopyConstructorLinkedhsTest, NotEmpty) {
     linkedhs students;
     student s1(18, "Sasha Ivanov");
@@ -601,7 +748,6 @@ TEST(CopyConstructorLinkedhsTest, NotEmpty) {
     EXPECT_TRUE(students.contains(s4));
 }
 
-
 TEST(CopyConstructorLinkedhsTest, Removing) {
     linkedhs students;
     student s1(18, "Sasha Ivanov");
@@ -621,6 +767,7 @@ TEST(CopyConstructorLinkedhsTest, Removing) {
 
     EXPECT_TRUE(studentsCopy.contains(s1));
     EXPECT_TRUE(studentsCopy.contains(s2));
+
     EXPECT_TRUE(studentsCopy.contains(s3));
     EXPECT_TRUE(studentsCopy.contains(s4));
 
