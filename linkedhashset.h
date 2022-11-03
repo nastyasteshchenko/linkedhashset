@@ -66,7 +66,6 @@ public:
     std::list<element>::const_iterator end() const;
 
 private:
-<<<<<<< HEAD
 
     static const unsigned DEFAULT_CAPACITY_OF_VECTOR = 1;
     constexpr static const double LOADING_FACTOR = 0.75;
@@ -76,27 +75,6 @@ private:
 
     std::list<element> elementsInOrder_;
     std::vector<std::list< std::list<element>::const_iterator> *> data_;
-=======
-    // CR: entry
-    struct elementOfHashSet {
-        // CR: storing student here and in history (reference somewhere)
-        element student;
-        // CR: order_it_
-        std::list<element>::const_iterator pointerToElemInOderList;
-    };
-
-    static const unsigned DEFAULT_CAPACITY_OF_VECTOR = 1;
-    static constexpr const double LOADING_FACTOR = 0.75;
-    // CR: capacity_
-    size_t capacityOfVector_;
-    // CR: size_
-    size_t sizeOfList_;
-    // CR: oderOfStudents_, hashSet_
-    // CR: elements_in_order_
-    std::list<element> oderOfStudents;
-    // CR: data_
-    std::vector<std::list<elementOfHashSet> *> hashSet;
->>>>>>> bf2905e8a5e1e99fb726daeb0180e63d06e0a9e0
 
     //resizes vector; makes the elements move relative to the new capacity
     void resize(size_t capacity);
