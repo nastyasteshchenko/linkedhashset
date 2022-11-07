@@ -35,4 +35,5 @@ target_link_libraries(
 )
 
 include(GoogleTest)
-#gtest_discover_tests(linkedhashset_test)
+# CR: doesn't work without test folder
+gtest_discover_tests(linkedhashset_test)
