@@ -102,7 +102,7 @@ linkedhs::orderIterator linkedhs::find(const element &e) const {
     if (data_[hash] == nullptr) {
         return end();
     }
-    for (auto &it: *data_.at(hash)) {
+    for (auto &it: *data_[hash]) {
         if (e == *it) {
             return it;
         }
