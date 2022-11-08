@@ -94,7 +94,7 @@ bool linkedhs::contains(const element &e) const {
     return find(e) != end();
 }
 
-std::list<element>::const_iterator linkedhs::find(const element &e) const {
+linkedhs::orderIterator linkedhs::find(const element &e) const {
     if (size_ == 0) {
         return end();
     }
@@ -116,11 +116,11 @@ void linkedhs::clear() {
     size_ = 0;
 }
 
-std::list<element>::const_iterator linkedhs::begin() const {
+linkedhs::orderIterator linkedhs::begin() const {
     return elementsInOrder_.begin();
 }
 
-std::list<element>::const_iterator linkedhs::end() const {
+linkedhs::orderIterator linkedhs::end() const {
     return elementsInOrder_.end();
 }
 

@@ -6,6 +6,9 @@
 #include <vector>
 
 class linkedhs {
+private:
+    typedef std::list<element>::const_iterator orderIterator;
+
 public:
     linkedhs();
 
@@ -45,20 +48,18 @@ public:
 
     //searches for the certain element in linked hash set
     //returns iterator that points to found element, returns end() otherwise
-    std::list<element>::const_iterator find(const element &e) const;
+    orderIterator find(const element &e) const;
 
     //removes all elements from linked hash set
     void clear();
 
     //returns iterator to the first added element
-    std::list<element>::const_iterator begin() const;
+    orderIterator begin() const;
 
     //returns iterator that points after the last added element
-    std::list<element>::const_iterator end() const;
+    orderIterator end() const;
 
 private:
-
-    typedef std::list<element>::const_iterator orderIterator;
 
     static constexpr unsigned DEFAULT_CAPACITY_OF_VECTOR = 1;
     static constexpr double LOADING_FACTOR = 0.75;
