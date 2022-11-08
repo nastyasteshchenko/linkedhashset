@@ -6,11 +6,10 @@ linkedhs::linkedhs() : capacity_(DEFAULT_CAPACITY_OF_VECTOR), size_(0) {
 }
 
 linkedhs::~linkedhs() {
-    clearHashSet();
+    clearHashSet(&data_);
 }
 
-// CR: capacity_ shouldn't be the same
-linkedhs::linkedhs(const linkedhs &other) : capacity_(other.capacity_), size_(0) {
+linkedhs::linkedhs(const linkedhs &other) : capacity_(DEFAULT_CAPACITY_OF_VECTOR), size_(0) {
     data_.resize(capacity_);
     for (const auto &it: other.elementsInOrder_) {
         insert(it);
@@ -18,8 +17,9 @@ linkedhs::linkedhs(const linkedhs &other) : capacity_(other.capacity_), size_(0)
 }
 
 linkedhs &linkedhs::operator=(const linkedhs &other) {
-    if (*this == other)
+    if (*this == other) {
         return *this;
+    }
     clear();
     for (const auto &it: other.elementsInOrder_) {
         insert(it);
@@ -28,11 +28,13 @@ linkedhs &linkedhs::operator=(const linkedhs &other) {
 }
 
 bool linkedhs::operator==(const linkedhs &other) const {
-    if (size_ != other.size_)
+    if (size_ != other.size_) {
         return false;
+    }
     for (const auto &it: other.elementsInOrder_) {
-        if (!contains(it))
+        if (!contains(it)) {
             return false;
+        }
     }
     return true;
 }
@@ -42,34 +44,32 @@ bool linkedhs::operator!=(const linkedhs &other) const {
 }
 
 bool linkedhs::insert(const element &e) {
-    if (contains(e))
+    if (contains(e)) {
         return false;
-    // CR: do we need two casts? (https://en.cppreference.com/w/c/language/conversion)
-    if ((double) size_ / (double) capacity_ >= LOADING_FACTOR) {
-        capacity_ *= 2;
-        resize(capacity_);
+    }
+    if ((double) size_ / capacity_ >= LOADING_FACTOR) {
+        resize();
     }
     long long int hash = e.hash() % capacity_;
-    if (data_.at(hash) == nullptr)
-        data_.at(hash) = new std::list<std::list<element>::const_iterator>;
-    auto it = elementsInOrder_.insert(elementsInOrder_.end(), e);
-    // CR: std::list<std::list<element>::const_iterator *>
-    // CR: difference between [] and at?
-    data_[hash]->push_back(it);
+    if (data_[hash] == nullptr) {
+        data_[hash] = new std::list<orderIterator>;
+    }
+    data_[hash]->push_back(elementsInOrder_.insert(elementsInOrder_.end(), e));
     size_++;
     return true;
 }
 
 bool linkedhs::remove(const element &e) {
     auto it = find(e);
-    if (it == end())
+    if (it == end()) {
         return false;
+    }
     long long int hash = e.hash() % capacity_;
-    data_.at(hash)->remove(it);
+    data_[hash]->remove(it);
     elementsInOrder_.erase(it);
-    if (data_.at(hash)->empty()) {
-        delete data_.at(hash);
-        data_.at(hash) = nullptr;
+    if (data_[hash]->empty()) {
+        delete data_[hash];
+        data_[hash] = nullptr;
     }
     size_--;
     return true;
@@ -95,21 +95,25 @@ bool linkedhs::contains(const element &e) const {
 }
 
 std::list<element>::const_iterator linkedhs::find(const element &e) const {
-    if (size_ == 0)
+    if (size_ == 0) {
         return end();
+    }
     long long int hash = e.hash() % capacity_;
-    if (data_.at(hash) == nullptr)
+    if (data_[hash] == nullptr) {
         return end();
+    }
     for (auto &it: *data_.at(hash)) {
-        if (e == *it)
+        if (e == *it) {
             return it;
+        }
     }
     return end();
 }
 
 void linkedhs::clear() {
-    clearHashSet();
+    clearHashSet(&data_);
     elementsInOrder_.clear();
+    size_ = 0;
 }
 
 std::list<element>::const_iterator linkedhs::begin() const {
@@ -120,42 +124,33 @@ std::list<element>::const_iterator linkedhs::end() const {
     return elementsInOrder_.end();
 }
 
-void linkedhs::insertInVector(std::list<element>::const_iterator &it, size_t capacity) {
-    long long int hash = (*it).hash() % capacity;
-    if (data_.at(hash) == nullptr)
-        data_.at(hash) = new std::list<std::list<element>::const_iterator>;
-    data_.at(hash)->push_back(it);
-}
-
-void linkedhs::resize(size_t capacity) {
-    std::vector<std::list<std::list<element>::const_iterator> *> tmpVector = std::move(data_);
-    data_ = std::vector<std::list<std::list<element>::const_iterator> *>(capacity);
-    for (size_t i = 0; i < capacity_; i++) {
-      // CR: size_ optimization?
-        if (tmpVector.at(i) != nullptr)
-            for (auto &it: *tmpVector.at(i)) {
-                insertInVector(it, capacity);
-            }
-    }
-    // CR: update capacity
+void linkedhs::resize() {
+    std::vector<std::list<orderIterator> *> tmpVector = std::move(data_);
+    data_ = std::vector<std::list<orderIterator> *>(capacity_ * 2);
     size_t countSize = size_;
-    // CR: reuse clearHashSet(std::vector<....>)
-    for (size_t i = 0; i < tmpVector.capacity() && countSize != 0; i++) {
-        if (tmpVector.at(i) != nullptr) {
-            countSize -= tmpVector.at(i)->size();
-            delete tmpVector.at(i);
+    for (size_t i = 0; i < capacity_ && countSize != 0; i++) {
+        if (tmpVector[i] != nullptr) {
+            for (auto &it: *tmpVector[i]) {
+                long long int hash = (*it).hash() % (capacity_ * 2);
+                if (data_[hash] == nullptr) {
+                    data_[hash] = new std::list<orderIterator>;
+                }
+                data_[hash]->push_back(it);
+                --countSize;
+            }
         }
     }
+    capacity_ *= 2;
+    clearHashSet(&tmpVector);
 }
 
-void linkedhs::clearHashSet() {
-    for (size_t i = 0; i < data_.capacity(); i++) {
-      // CR: move to for condition
-        if (size_ == 0) break;
-        if (data_.at(i) != nullptr) {
-            size_ -= data_.at(i)->size();
-            delete data_.at(i);
-            data_.at(i) = nullptr;
+void linkedhs::clearHashSet(std::vector<std::list<orderIterator> *> *data) const {
+    size_t size = size_;
+    for (size_t i = 0; i < data->capacity() && size != 0; i++) {
+        if (data->at(i) != nullptr) {
+            size -= data->at(i)->size();
+            delete data->at(i);
+            data->at(i) = nullptr;
         }
     }
 }
