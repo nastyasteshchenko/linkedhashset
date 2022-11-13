@@ -31,8 +31,8 @@ bool linkedhs::operator==(const linkedhs &other) const {
     if (size_ != other.size_) {
         return false;
     }
-    for (const auto &it: other.elementsInOrder_) {
-        if (!contains(it)) {
+    for (const auto &e: other.elementsInOrder_) {
+        if (!contains(e)) {
             return false;
         }
     }
@@ -102,7 +102,7 @@ linkedhs::orderIterator linkedhs::find(const element &e) const {
     if (data_[hash] == nullptr) {
         return end();
     }
-    for (auto &it: *data_[hash]) {
+    for (const auto &it: *data_[hash]) {
         if (e == *it) {
             return it;
         }
@@ -130,7 +130,7 @@ void linkedhs::resize() {
     size_t countSize = size_;
     for (size_t i = 0; i < capacity_ && countSize != 0; i++) {
         if (tmpVector[i] != nullptr) {
-            for (auto &it: *tmpVector[i]) {
+            for (const auto &it: *tmpVector[i]) {
                 long long int hash = (*it).hash() % (capacity_ * 2);
                 if (data_[hash] == nullptr) {
                     data_[hash] = new std::list<orderIterator>;

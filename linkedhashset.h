@@ -29,7 +29,7 @@ public:
     bool operator!=(const linkedhs &other) const;
 
     //adds new element to linkedHashSet
-    //returns true if the element is not in the linked hash set, returns false otherwise
+    //returns true if the element was not in the linked hash set, returns false otherwise
     bool insert(const element &e);
 
     //removes the element from linkedHashSet
