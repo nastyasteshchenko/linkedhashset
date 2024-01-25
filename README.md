@@ -10,7 +10,7 @@ Requirements:
   
 Interface  
 
-'''
+```
 typedef student element;
 
 
@@ -72,4 +72,4 @@ public:
 
    void clear();
 };
-'''
+```
